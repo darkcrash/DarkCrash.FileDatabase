@@ -66,11 +66,11 @@ namespace DarkCrash.FileDatabase
                     var directories = System.IO.Directory.GetDirectories(path);
                     node.Nodes.AddRange(directories.Select(_ => new TreeNode(System.IO.Path.GetFileName(_))).ToArray());
                 }
-                catch (System.UnauthorizedAccessException ex) { continue; }
+                catch (System.UnauthorizedAccessException) { continue; }
             }
         }
 
-        private async void treeViewDrive_AfterSelect(object sender, TreeViewEventArgs e)
+        private void treeViewDrive_AfterSelect(object sender, TreeViewEventArgs e)
         {
             var node = e.Node;
             if (node == null) return;
@@ -114,7 +114,7 @@ namespace DarkCrash.FileDatabase
             if (viewItem == null) return;
             var item = viewItem.Tag as Common.Models.FileItem;
             if (item == null) return;
-            var items = DataService.Instance.GetDuplicateSizeFiles(item);
+            var items = DataService.Instance.GetSameSizeFiles(item);
             var form = new DuplicateFilesForm(items);
             form.Show(this);
 
@@ -184,7 +184,7 @@ namespace DarkCrash.FileDatabase
             }
             else
             {
-                items = DataService.Instance.GetDuplicateSizeFiles(item);
+                items = DataService.Instance.GetSameSizeFiles(item);
                 if (items.Count() > 1)
                 {
                     var form = new DuplicateFilesForm(items);
@@ -199,7 +199,7 @@ namespace DarkCrash.FileDatabase
             if (viewItem == null) return;
             var item = viewItem.Tag as Common.Models.FileItem;
             if (item == null) return;
-            var items = DataService.Instance.GetDuplicateSizeFiles(item);
+            var items = DataService.Instance.GetSameSizeFiles(item);
             var form = new DuplicateFilesForm(items);
             form.Show(this);
         }

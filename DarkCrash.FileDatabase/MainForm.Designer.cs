@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            TreeNode treeNode1 = new TreeNode("C:");
-            TreeNode treeNode2 = new TreeNode("D:");
-            TreeNode treeNode3 = new TreeNode("Root", new TreeNode[] { treeNode1, treeNode2 });
+            TreeNode treeNode4 = new TreeNode("C:");
+            TreeNode treeNode5 = new TreeNode("D:");
+            TreeNode treeNode6 = new TreeNode("Root", new TreeNode[] { treeNode4, treeNode5 });
             menuStrip1 = new MenuStrip();
             ToolStripMenuItemLoad = new ToolStripMenuItem();
             ToolStripMenuItemSave = new ToolStripMenuItem();
@@ -43,9 +43,10 @@
             columnHeaderSize = new ColumnHeader();
             columnHeaderSha1 = new ColumnHeader();
             contextMenuStripFile = new ContextMenuStrip(components);
+            openShellToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
             computeHashToolStripMenuItem = new ToolStripMenuItem();
             filesOfTheSameSizeToolStripMenuItem = new ToolStripMenuItem();
-            openShellToolStripMenuItem = new ToolStripMenuItem();
             toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             toolStripTextBoxCurrentPath = new ToolStripTextBox();
@@ -111,13 +112,13 @@
             treeViewDrive.Dock = DockStyle.Fill;
             treeViewDrive.Location = new Point(0, 0);
             treeViewDrive.Name = "treeViewDrive";
-            treeNode1.Name = "ノード1";
-            treeNode1.Text = "C:";
-            treeNode2.Name = "ノード2";
-            treeNode2.Text = "D:";
-            treeNode3.Name = "ノード0";
-            treeNode3.Text = "Root";
-            treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode3 });
+            treeNode4.Name = "ノード1";
+            treeNode4.Text = "C:";
+            treeNode5.Name = "ノード2";
+            treeNode5.Text = "D:";
+            treeNode6.Name = "ノード0";
+            treeNode6.Text = "Root";
+            treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode6 });
             treeViewDrive.Size = new Size(266, 379);
             treeViewDrive.TabIndex = 0;
             treeViewDrive.AfterExpand += treeViewDrive_AfterExpand;
@@ -125,13 +126,10 @@
             // 
             // listViewDirectory
             // 
-            listViewDirectory.Activation = ItemActivation.OneClick;
             listViewDirectory.AllowColumnReorder = true;
             listViewDirectory.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1 });
             listViewDirectory.ContextMenuStrip = contextMenuStripFile;
             listViewDirectory.Dock = DockStyle.Fill;
-            listViewDirectory.HotTracking = true;
-            listViewDirectory.HoverSelection = true;
             listViewDirectory.Location = new Point(0, 0);
             listViewDirectory.MultiSelect = false;
             listViewDirectory.Name = "listViewDirectory";
@@ -160,9 +158,21 @@
             // 
             // contextMenuStripFile
             // 
-            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem, openShellToolStripMenuItem });
+            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { openShellToolStripMenuItem, toolStripSeparator1, computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem });
             contextMenuStripFile.Name = "contextMenuStripFile";
-            contextMenuStripFile.Size = new Size(184, 92);
+            contextMenuStripFile.Size = new Size(184, 76);
+            // 
+            // openShellToolStripMenuItem
+            // 
+            openShellToolStripMenuItem.Name = "openShellToolStripMenuItem";
+            openShellToolStripMenuItem.Size = new Size(183, 22);
+            openShellToolStripMenuItem.Text = "Open Shell";
+            openShellToolStripMenuItem.Click += openShellToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(180, 6);
             // 
             // computeHashToolStripMenuItem
             // 
@@ -177,13 +187,6 @@
             filesOfTheSameSizeToolStripMenuItem.Size = new Size(183, 22);
             filesOfTheSameSizeToolStripMenuItem.Text = "Files of the same size";
             filesOfTheSameSizeToolStripMenuItem.Click += filesOfTheSameSizeToolStripMenuItem_Click;
-            // 
-            // openShellToolStripMenuItem
-            // 
-            openShellToolStripMenuItem.Name = "openShellToolStripMenuItem";
-            openShellToolStripMenuItem.Size = new Size(183, 22);
-            openShellToolStripMenuItem.Text = "Open Shell";
-            openShellToolStripMenuItem.Click += openShellToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -255,5 +258,6 @@
         private ToolStripMenuItem computeHashToolStripMenuItem;
         private ToolStripMenuItem filesOfTheSameSizeToolStripMenuItem;
         private ToolStripMenuItem openShellToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }

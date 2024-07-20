@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 namespace DarkCrash.FileDatabase.Common.Models
 {
     /// <summary>
-    /// ディレクトリ項目
+    /// directory item model
     /// </summary>
     public class DirectoryItem
     {
         /// <summary>
-        /// 名称
+        /// directory name
         /// </summary>
         public string Name { get; set; } = string.Empty;
         /// <summary>
-        /// パス
+        /// directory path
         /// </summary>
         public string Path { get; set; } = string.Empty;
         /// <summary>
-        /// ファイル
+        /// file items in directory
         /// </summary>
         public List<FileItem> Files { get; } = new List<FileItem>();
 

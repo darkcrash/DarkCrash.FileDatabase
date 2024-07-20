@@ -13,13 +13,21 @@ namespace DarkCrash.FileDatabase.Common.Services
     /// </summary>
     public class ItemFactoryService
     {
-        public HMACSHA1 SHA1 = new HMACSHA1();
-        public HMACMD5 MD5 = new HMACMD5();
-
+        /// <summary>
+        /// singletone instance
+        /// </summary>
         public static ItemFactoryService Instance = new ItemFactoryService();
+
+        /// <summary>
+        /// private constructor
+        /// </summary>
         private ItemFactoryService() { }
 
-
+        /// <summary>
+        /// throw exception if file not found.
+        /// </summary>
+        /// <param name="path">target file path</param>
+        /// <exception cref="FileNotFoundException">file not found</exception>
         private void ThrowNotFoundIfFileNotFound(string path)
         {
             if (!System.IO.File.Exists(path))
@@ -28,21 +36,25 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
+        /// <summary>
+        /// throw exception if directory not found.
+        /// </summary>
+        /// <param name="path">target directory path</param>
+        /// <exception cref="FileNotFoundException">directory not found</exception>
         private void ThrowNotFoundIfDirectoryNotFound(string path)
         {
             if (!System.IO.Directory.Exists(path))
             {
-                throw new FileNotFoundException($"path:{path} のディレクトリが存在しません。");
+                throw new DirectoryNotFoundException($"path:{path} のディレクトリが存在しません。");
             }
         }
 
-
         /// <summary>
-        /// ファイル項目を生成する
+        /// create file item from file path
         /// </summary>
-        /// <param name="path">ファイルパス</param>
-        /// <returns>ファイル項目</returns>
-        /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="path">file path</param>
+        /// <returns>file item</returns>
+        /// <exception cref="FileNotFoundException">path not found</exception>
         public FileItem CreateFilItemWithoutHash(string path)
         {
             ThrowNotFoundIfFileNotFound(path);
@@ -59,13 +71,12 @@ namespace DarkCrash.FileDatabase.Common.Services
         }
 
 
-
         /// <summary>
-        /// ファイル項目を生成する
+        /// create file item from directory path
         /// </summary>
-        /// <param name="path">ファイルパス</param>
-        /// <returns>ファイル項目</returns>
-        /// <exception cref="FileNotFoundException"></exception>
+        /// <param name="path">directory path</param>
+        /// <returns>file items</returns>
+        /// <exception cref="DirectoryNotFoundException">path not found</exception>
         public DirectoryItem CreateDirectoryItemsWithoutHash(string path)
         {
             ThrowNotFoundIfDirectoryNotFound(path);

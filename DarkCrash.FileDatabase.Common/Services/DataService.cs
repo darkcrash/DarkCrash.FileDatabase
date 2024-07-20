@@ -15,14 +15,30 @@ namespace DarkCrash.FileDatabase.Common.Services
     /// </summary>
     public class DataService
     {
-
+        /// <summary>
+        /// base directory path of data store
+        /// </summary>
         private string DirectoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), AppDomain.CurrentDomain.FriendlyName);
 
+        /// <summary>
+        /// in-memory data store
+        /// </summary>
         private Dictionary<long, List<FileItem>> Data = new Dictionary<long, List<FileItem>>();
 
+        /// <summary>
+        /// singletone instance
+        /// </summary>
         public static DataService Instance { get; private set; } = new DataService();
+
+        /// <summary>
+        /// private constructor
+        /// </summary>
         private DataService() { }
 
+        /// <summary>
+        /// save item to in-memory
+        /// </summary>
+        /// <param name="item">saving item</param>
         public void SaveItem(FileItem item)
         {
             lock (Data)
@@ -43,6 +59,10 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
+        /// <summary>
+        /// load iten from in-memory
+        /// </summary>
+        /// <param name="item">loading item</param>
         public void LoadItem(FileItem item)
         {
             if (Data.ContainsKey(item.Size))
@@ -59,6 +79,10 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
+        /// <summary>
+        /// remove item from in-memory
+        /// </summary>
+        /// <param name="item">removing item</param>
         public void RemoveItem(FileItem item)
         {
             if (Data.ContainsKey(item.Size))
@@ -74,6 +98,10 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
+        /// <summary>
+        /// save items collection to file
+        /// </summary>
+        /// <returns>Task</returns>
         public async Task SaveAsync()
         {
             var path = System.IO.Path.Combine(DirectoryPath, "datastore");
@@ -89,6 +117,10 @@ namespace DarkCrash.FileDatabase.Common.Services
             await stream.FlushAsync();
         }
 
+        /// <summary>
+        /// load items collection from file
+        /// </summary>
+        /// <returns>Task</returns>
         public async Task LoadAsync()
         {
             var path = System.IO.Path.Combine(DirectoryPath, "datastore");
@@ -99,10 +131,15 @@ namespace DarkCrash.FileDatabase.Common.Services
             {
                 Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
 
-        public IEnumerable<FileItem> GetDuplicateSizeFiles(FileItem item)
+        /// <summary>
+        /// get same size items with target item 
+        /// </summary>
+        /// <param name="item">target item</param>
+        /// <returns>duplicate items</returns>
+        public IEnumerable<FileItem> GetSameSizeFiles(FileItem item)
         {
             if (!Data.ContainsKey(item.Size)) yield break;
             foreach (var i in Data[item.Size].ToArray())
@@ -116,8 +153,11 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
-
-
+        /// <summary>
+        /// get duplicate items with target item
+        /// </summary>
+        /// <param name="item">target item</param>
+        /// <returns>duplicate items</returns>
         public IEnumerable<FileItem> GetDuplicateFiles(FileItem item)
         {
             if (!Data.ContainsKey(item.Size)) yield break;
