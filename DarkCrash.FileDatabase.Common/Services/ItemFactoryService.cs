@@ -107,6 +107,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                 item.Path = _.DirectoryName ?? string.Empty;
                 item.Size = _.Length;
                 DataService.Instance.LoadItem(item);
+                DataService.Instance.SaveItem(item);
                 return item;
             }));
 

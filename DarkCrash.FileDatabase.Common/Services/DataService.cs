@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 
 namespace DarkCrash.FileDatabase.Common.Services
 {
@@ -67,6 +68,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                 IgnoreReadOnlyProperties = true
             };
             await JsonSerializer.SerializeAsync(stream, Data, option);
+            await stream.FlushAsync();
         }
 
         public async Task LoadAsync()
@@ -75,9 +77,32 @@ namespace DarkCrash.FileDatabase.Common.Services
             var file = new FileInfo(path);
             if (!file.Exists) return;
             using FileStream stream = file.Open(FileMode.Open);
-            Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
+            try
+            {
+                Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
+            }
+            catch (Exception ex) { }
         }
 
+        public IEnumerable<FileItem> GetDuplicateSizeFiles(FileItem item)
+        {
+            if (!Data.ContainsKey(item.Size)) yield break;
+            foreach (var i in Data[item.Size].ToArray())
+            {
+                yield return i;
+            }
+        }
+
+
+
+        public IEnumerable<FileItem> GetDuplicateFiles(FileItem item)
+        {
+            if (!Data.ContainsKey(item.Size)) yield break;
+            foreach (var f in Data[item.Size])
+            {
+                if (f.Sha1 == item.Sha1) yield return f;
+            }
+        }
 
     }
 }

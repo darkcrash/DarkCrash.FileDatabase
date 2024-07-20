@@ -41,11 +41,15 @@
             columnHeaderName = new ColumnHeader();
             columnHeaderSize = new ColumnHeader();
             columnHeaderSha1 = new ColumnHeader();
+            toolStrip1 = new ToolStrip();
+            toolStripLabel1 = new ToolStripLabel();
+            toolStripTextBoxCurrentPath = new ToolStripTextBox();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -60,15 +64,15 @@
             // ToolStripMenuItemLoad
             // 
             ToolStripMenuItemLoad.Name = "ToolStripMenuItemLoad";
-            ToolStripMenuItemLoad.Size = new Size(65, 20);
-            ToolStripMenuItemLoad.Text = "読み込み";
+            ToolStripMenuItemLoad.Size = new Size(69, 20);
+            ToolStripMenuItemLoad.Text = "LoadData";
             ToolStripMenuItemLoad.Click += ToolStripMenuItemLoad_Click;
             // 
             // ToolStripMenuItemSave
             // 
             ToolStripMenuItemSave.Name = "ToolStripMenuItemSave";
-            ToolStripMenuItemSave.Size = new Size(43, 20);
-            ToolStripMenuItemSave.Text = "保存";
+            ToolStripMenuItemSave.Size = new Size(67, 20);
+            ToolStripMenuItemSave.Text = "SaveData";
             ToolStripMenuItemSave.Click += ToolStripMenuItemSave_Click;
             // 
             // statusStrip1
@@ -82,7 +86,7 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 24);
+            splitContainer1.Location = new Point(0, 49);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -92,7 +96,7 @@
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(listViewDirectory);
-            splitContainer1.Size = new Size(800, 404);
+            splitContainer1.Size = new Size(800, 379);
             splitContainer1.SplitterDistance = 266;
             splitContainer1.TabIndex = 2;
             // 
@@ -108,20 +112,27 @@
             treeNode3.Name = "ノード0";
             treeNode3.Text = "Root";
             treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode3 });
-            treeViewDrive.Size = new Size(266, 404);
+            treeViewDrive.Size = new Size(266, 379);
             treeViewDrive.TabIndex = 0;
+            treeViewDrive.AfterExpand += treeViewDrive_AfterExpand;
             treeViewDrive.AfterSelect += treeViewDrive_AfterSelect;
             // 
             // listViewDirectory
             // 
+            listViewDirectory.Activation = ItemActivation.OneClick;
+            listViewDirectory.AllowColumnReorder = true;
             listViewDirectory.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1 });
             listViewDirectory.Dock = DockStyle.Fill;
+            listViewDirectory.HotTracking = true;
+            listViewDirectory.HoverSelection = true;
             listViewDirectory.Location = new Point(0, 0);
+            listViewDirectory.MultiSelect = false;
             listViewDirectory.Name = "listViewDirectory";
-            listViewDirectory.Size = new Size(530, 404);
+            listViewDirectory.Size = new Size(530, 379);
             listViewDirectory.TabIndex = 0;
             listViewDirectory.UseCompatibleStateImageBehavior = false;
             listViewDirectory.View = View.Details;
+            listViewDirectory.ColumnClick += listViewDirectory_ColumnClick;
             listViewDirectory.ItemActivate += listViewDirectory_ItemActivate;
             // 
             // columnHeaderName
@@ -140,6 +151,29 @@
             columnHeaderSha1.Text = "Sha1";
             columnHeaderSha1.Width = 240;
             // 
+            // toolStrip1
+            // 
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripTextBoxCurrentPath });
+            toolStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            toolStrip1.Location = new Point(0, 24);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(800, 25);
+            toolStrip1.TabIndex = 2;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(94, 22);
+            toolStripLabel1.Text = "CurrentDirectory";
+            // 
+            // toolStripTextBoxCurrentPath
+            // 
+            toolStripTextBoxCurrentPath.AutoSize = false;
+            toolStripTextBoxCurrentPath.Name = "toolStripTextBoxCurrentPath";
+            toolStripTextBoxCurrentPath.ReadOnly = true;
+            toolStripTextBoxCurrentPath.Size = new Size(400, 25);
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -147,11 +181,13 @@
             ClientSize = new Size(800, 450);
             Controls.Add(splitContainer1);
             Controls.Add(statusStrip1);
+            Controls.Add(toolStrip1);
             Controls.Add(menuStrip1);
             DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Form1";
+            FormClosing += MainForm_FormClosing;
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -159,6 +195,8 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -175,5 +213,8 @@
         private ColumnHeader columnHeaderSize;
         private ColumnHeader columnHeaderSha1;
         private ToolStripMenuItem ToolStripMenuItemSave;
+        private ToolStrip toolStrip1;
+        private ToolStripTextBox toolStripTextBoxCurrentPath;
+        private ToolStripLabel toolStripLabel1;
     }
 }
