@@ -32,15 +32,15 @@
             imageList = new ImageList(components);
             columnHeaderName = new ColumnHeader();
             columnHeaderSize = new ColumnHeader();
-            columnHeaderSha1 = new ColumnHeader();
+            columnHeaderSha256 = new ColumnHeader();
             contextMenuStripFile = new ContextMenuStrip(components);
             openShellToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             computeHashToolStripMenuItem = new ToolStripMenuItem();
             filesOfTheSameSizeToolStripMenuItem = new ToolStripMenuItem();
-            columnHeaderSameSizeCount = new ColumnHeader();
-            deleteToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
+            columnHeaderSameSizeCount = new ColumnHeader();
             contextMenuStripFile.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,10 +61,10 @@
             columnHeaderSize.TextAlign = HorizontalAlignment.Right;
             columnHeaderSize.Width = 160;
             // 
-            // columnHeaderSha1
+            // columnHeaderSha256
             // 
-            columnHeaderSha1.Text = "Sha1";
-            columnHeaderSha1.Width = 240;
+            columnHeaderSha256.Text = "SHA2-256";
+            columnHeaderSha256.Width = 240;
             // 
             // contextMenuStripFile
             // 
@@ -98,9 +98,10 @@
             filesOfTheSameSizeToolStripMenuItem.Text = "Files of the same size";
             filesOfTheSameSizeToolStripMenuItem.Click += filesOfTheSameSizeToolStripMenuItem_Click;
             // 
-            // columnHeaderSameSizeCount
+            // toolStripSeparator2
             // 
-            columnHeaderSameSizeCount.Text = "SameSizeCount";
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(180, 6);
             // 
             // deleteToolStripMenuItem
             // 
@@ -109,14 +110,13 @@
             deleteToolStripMenuItem.Text = "Delete";
             deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
             // 
-            // toolStripSeparator2
+            // columnHeaderSameSizeCount
             // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(180, 6);
+            columnHeaderSameSizeCount.Text = "SameSizeCount";
             // 
             // CustomListView
             // 
-            Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1, columnHeaderSameSizeCount });
+            Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha256, columnHeaderSameSizeCount });
             ContextMenuStrip = contextMenuStripFile;
             View = View.Details;
             ColumnClick += CustomListView_ColumnClick;
@@ -130,7 +130,7 @@
         private ImageList imageList;
         private ColumnHeader columnHeaderName;
         private ColumnHeader columnHeaderSize;
-        private ColumnHeader columnHeaderSha1;
+        private ColumnHeader columnHeaderSha256;
         private ContextMenuStrip contextMenuStripFile;
         private ToolStripMenuItem openShellToolStripMenuItem;
         private ToolStripSeparator toolStripSeparator1;

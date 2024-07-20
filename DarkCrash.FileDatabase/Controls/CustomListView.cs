@@ -38,7 +38,7 @@ namespace DarkCrash.FileDatabase.Controls
                             Tag = _
                         };
                         item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "size", Text = _.Size.ToString(), Tag = _.Size });
-                        item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "hash", Text = _.Sha1Text, Tag = _.Sha1Text });
+                        item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "hash", Text = _.Sha256Text, Tag = _.Sha256Text });
                         item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "sscnt", Text = _.SameSizeCount.ToString(), Tag = _.SameSizeCount });
                         return item;
                     }).ToArray()
@@ -58,7 +58,7 @@ namespace DarkCrash.FileDatabase.Controls
                         Tag = _
                     };
                     item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "size", Text = _.Size.ToString(), Tag = _.Size });
-                    item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "hash", Text = _.Sha1Text, Tag = _.Sha1Text });
+                    item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "hash", Text = _.Sha256Text, Tag = _.Sha256Text });
                     item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "sscnt", Text = _.SameSizeCount.ToString(), Tag = _.SameSizeCount });
                     return item;
                 }).ToArray()
@@ -84,7 +84,7 @@ namespace DarkCrash.FileDatabase.Controls
 
                 subitem.Text = "computing ...";
                 await item.ComputeHashAsync();
-                subitem.Text = item.Sha1Text;
+                subitem.Text = item.Sha256Text;
 
                 //var items = DataService.Instance.GetDuplicateFiles(item);
                 //if (items.Count() > 1)

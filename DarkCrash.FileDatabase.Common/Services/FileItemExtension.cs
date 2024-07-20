@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <summary>
         /// computing hash feature
         /// </summary>
-        public static HMACSHA1 SHA1 = new HMACSHA1();
+        public static HashAlgorithm Hash = SHA256.Create();
 
         /// <summary>
         /// compute hash
@@ -35,7 +36,7 @@ namespace DarkCrash.FileDatabase.Common.Services
             // computing hash value
             using (var stream = info.OpenRead())
             {
-                item.Sha1 = await SHA1.ComputeHashAsync(stream);
+                item.Sha256 = await Hash.ComputeHashAsync(stream);
             }
 
             // save item information
@@ -68,8 +69,8 @@ namespace DarkCrash.FileDatabase.Common.Services
         {
             // shell based execution
             var info = new FileInfo(item.FullName);
-            
-               
+
+
 
         }
 

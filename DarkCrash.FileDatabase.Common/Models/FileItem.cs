@@ -15,27 +15,33 @@ namespace DarkCrash.FileDatabase.Common.Models
         /// <summary>
         /// file name
         /// </summary>
+        [JsonPropertyName("n")]
         public string Name { get; set; } = string.Empty;
         /// <summary>
         /// file directory path
         /// </summary>
+        [JsonPropertyName("p")]
         public string Path { get; set; } = string.Empty;
         /// <summary>
         /// file full path
         /// </summary>
+        [JsonIgnore]
         public string FullName { get => System.IO.Path.Combine(Path, Name); }
         /// <summary>
         /// file size
         /// </summary>
+        [JsonPropertyName("s")]
         public long Size { get; set; } = default(int);
         /// <summary>
         /// SHA1 hash
         /// </summary>
-        public byte[] Sha1 { get; set; } = [];
+        [JsonPropertyName("h")]
+        public byte[] Sha256 { get; set; } = [];
         /// <summary>
         /// sha1 hash text
         /// </summary>
-        public string Sha1Text { get => string.Join("", Sha1.Select(_ => _.ToString("X2"))); }
+        [JsonIgnore]
+        public string Sha256Text { get => string.Join("", Sha256.Select(_ => _.ToString("X2"))); }
         /// <summary>
         /// same size item count
         /// </summary>

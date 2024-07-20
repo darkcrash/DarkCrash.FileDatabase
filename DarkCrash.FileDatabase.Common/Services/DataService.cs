@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Runtime.CompilerServices;
+using System.IO.Compression;
 
 namespace DarkCrash.FileDatabase.Common.Services
 {
@@ -51,7 +52,7 @@ namespace DarkCrash.FileDatabase.Common.Services
             var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
             if (result != null)
             {
-                result.Sha1 = item.Sha1;
+                result.Sha256 = item.Sha256;
             }
             else
             {
@@ -72,7 +73,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                     var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
                     if (result != null)
                     {
-                        item.Sha1 = result.Sha1;
+                        item.Sha256 = result.Sha256;
                         item.SameSizeCount = Data[item.Size].Count;
                     }
                 }
@@ -111,7 +112,8 @@ namespace DarkCrash.FileDatabase.Common.Services
             var path = System.IO.Path.Combine(DirectoryPath, "datastore");
             System.IO.Directory.CreateDirectory(DirectoryPath);
             var file = new FileInfo(path);
-            using FileStream stream = file.Open(FileMode.OpenOrCreate);
+            using FileStream s = file.Open(FileMode.Create);
+            using GZipStream stream = new GZipStream(s, CompressionLevel.Fastest);
             var option = new JsonSerializerOptions()
             {
                 WriteIndented = false,
@@ -130,13 +132,18 @@ namespace DarkCrash.FileDatabase.Common.Services
             var path = System.IO.Path.Combine(DirectoryPath, "datastore");
             var file = new FileInfo(path);
             if (!file.Exists) return;
-            using FileStream stream = file.Open(FileMode.Open);
+            using FileStream s = file.Open(FileMode.Open);
+            using GZipStream stream = new GZipStream(s, CompressionMode.Decompress);
             try
             {
                 Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
             }
             catch (Exception) {
-                file.MoveTo(file.FullName + $"_{DateTime.Now.ToString("yyyyMMddHHmmss")}");
+                try
+                {
+                    file.MoveTo(file.FullName + $"_{DateTime.Now.ToString("yyyyMMddHHmmss")}");
+                }
+                catch (Exception) { }
             }
         }
 
@@ -174,7 +181,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                     Data[item.Size].Remove(f);
                     continue;
                 }
-                if (f.Sha1 == item.Sha1) yield return f;
+                if (f.Sha256 == item.Sha256) yield return f;
             }
         }
 
