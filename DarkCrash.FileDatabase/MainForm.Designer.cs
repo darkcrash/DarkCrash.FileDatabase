@@ -1,4 +1,5 @@
-﻿namespace DarkCrash.FileDatabase
+﻿using DarkCrash.FileDatabase.Controls;
+namespace DarkCrash.FileDatabase
 {
     partial class MainForm
     {
@@ -28,25 +29,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            TreeNode treeNode4 = new TreeNode("C:");
-            TreeNode treeNode5 = new TreeNode("D:");
-            TreeNode treeNode6 = new TreeNode("Root", new TreeNode[] { treeNode4, treeNode5 });
+            TreeNode treeNode1 = new TreeNode("C:");
+            TreeNode treeNode2 = new TreeNode("D:");
+            TreeNode treeNode3 = new TreeNode("Root", new TreeNode[] { treeNode1, treeNode2 });
             menuStrip1 = new MenuStrip();
             ToolStripMenuItemLoad = new ToolStripMenuItem();
             ToolStripMenuItemSave = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             splitContainer1 = new SplitContainer();
-            treeViewDrive = new TreeView();
-            listViewDirectory = new ListView();
-            columnHeaderName = new ColumnHeader();
-            columnHeaderSize = new ColumnHeader();
-            columnHeaderSha1 = new ColumnHeader();
-            contextMenuStripFile = new ContextMenuStrip(components);
-            openShellToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
-            computeHashToolStripMenuItem = new ToolStripMenuItem();
-            filesOfTheSameSizeToolStripMenuItem = new ToolStripMenuItem();
+            treeViewDrive = new CustomTreeView();
+            listViewDirectory = new CustomListView();
             toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             toolStripTextBoxCurrentPath = new ToolStripTextBox();
@@ -55,7 +47,6 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            contextMenuStripFile.SuspendLayout();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -112,13 +103,13 @@
             treeViewDrive.Dock = DockStyle.Fill;
             treeViewDrive.Location = new Point(0, 0);
             treeViewDrive.Name = "treeViewDrive";
-            treeNode4.Name = "ノード1";
-            treeNode4.Text = "C:";
-            treeNode5.Name = "ノード2";
-            treeNode5.Text = "D:";
-            treeNode6.Name = "ノード0";
-            treeNode6.Text = "Root";
-            treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode6 });
+            treeNode1.Name = "ノード1";
+            treeNode1.Text = "C:";
+            treeNode2.Name = "ノード2";
+            treeNode2.Text = "D:";
+            treeNode3.Name = "ノード0";
+            treeNode3.Text = "Root";
+            treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode3 });
             treeViewDrive.Size = new Size(266, 379);
             treeViewDrive.TabIndex = 0;
             treeViewDrive.AfterExpand += treeViewDrive_AfterExpand;
@@ -127,66 +118,12 @@
             // listViewDirectory
             // 
             listViewDirectory.AllowColumnReorder = true;
-            listViewDirectory.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1 });
-            listViewDirectory.ContextMenuStrip = contextMenuStripFile;
             listViewDirectory.Dock = DockStyle.Fill;
             listViewDirectory.Location = new Point(0, 0);
-            listViewDirectory.MultiSelect = false;
             listViewDirectory.Name = "listViewDirectory";
             listViewDirectory.Size = new Size(530, 379);
             listViewDirectory.TabIndex = 0;
             listViewDirectory.UseCompatibleStateImageBehavior = false;
-            listViewDirectory.View = View.Details;
-            listViewDirectory.ColumnClick += listViewDirectory_ColumnClick;
-            listViewDirectory.ItemActivate += listViewDirectory_ItemActivate;
-            // 
-            // columnHeaderName
-            // 
-            columnHeaderName.Text = "Name";
-            columnHeaderName.Width = 240;
-            // 
-            // columnHeaderSize
-            // 
-            columnHeaderSize.Text = "Size";
-            columnHeaderSize.TextAlign = HorizontalAlignment.Right;
-            columnHeaderSize.Width = 160;
-            // 
-            // columnHeaderSha1
-            // 
-            columnHeaderSha1.Text = "Sha1";
-            columnHeaderSha1.Width = 240;
-            // 
-            // contextMenuStripFile
-            // 
-            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { openShellToolStripMenuItem, toolStripSeparator1, computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem });
-            contextMenuStripFile.Name = "contextMenuStripFile";
-            contextMenuStripFile.Size = new Size(184, 76);
-            // 
-            // openShellToolStripMenuItem
-            // 
-            openShellToolStripMenuItem.Name = "openShellToolStripMenuItem";
-            openShellToolStripMenuItem.Size = new Size(183, 22);
-            openShellToolStripMenuItem.Text = "Open Shell";
-            openShellToolStripMenuItem.Click += openShellToolStripMenuItem_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(180, 6);
-            // 
-            // computeHashToolStripMenuItem
-            // 
-            computeHashToolStripMenuItem.Name = "computeHashToolStripMenuItem";
-            computeHashToolStripMenuItem.Size = new Size(183, 22);
-            computeHashToolStripMenuItem.Text = "Compute Hash";
-            computeHashToolStripMenuItem.Click += computeHashToolStripMenuItem_Click;
-            // 
-            // filesOfTheSameSizeToolStripMenuItem
-            // 
-            filesOfTheSameSizeToolStripMenuItem.Name = "filesOfTheSameSizeToolStripMenuItem";
-            filesOfTheSameSizeToolStripMenuItem.Size = new Size(183, 22);
-            filesOfTheSameSizeToolStripMenuItem.Text = "Files of the same size";
-            filesOfTheSameSizeToolStripMenuItem.Click += filesOfTheSameSizeToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -232,7 +169,6 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            contextMenuStripFile.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
@@ -245,19 +181,11 @@
         private ToolStripMenuItem ToolStripMenuItemLoad;
         private StatusStrip statusStrip1;
         private SplitContainer splitContainer1;
-        private TreeView treeViewDrive;
-        private ListView listViewDirectory;
-        private ColumnHeader columnHeaderName;
-        private ColumnHeader columnHeaderSize;
-        private ColumnHeader columnHeaderSha1;
+        private CustomTreeView treeViewDrive;
+        private CustomListView listViewDirectory;
         private ToolStripMenuItem ToolStripMenuItemSave;
         private ToolStrip toolStrip1;
         private ToolStripTextBox toolStripTextBoxCurrentPath;
         private ToolStripLabel toolStripLabel1;
-        private ContextMenuStrip contextMenuStripFile;
-        private ToolStripMenuItem computeHashToolStripMenuItem;
-        private ToolStripMenuItem filesOfTheSameSizeToolStripMenuItem;
-        private ToolStripMenuItem openShellToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparator1;
     }
 }

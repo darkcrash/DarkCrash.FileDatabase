@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 namespace DarkCrash.FileDatabase.Common.Services
 {
     /// <summary>
-    /// データサービス
+    /// data service
     /// </summary>
     public class DataService
     {
@@ -73,6 +73,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                     if (result != null)
                     {
                         item.Sha1 = result.Sha1;
+                        item.SameSizeCount = Data[item.Size].Count;
                     }
                 }
 
@@ -92,7 +93,10 @@ namespace DarkCrash.FileDatabase.Common.Services
                     var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
                     if (result != null)
                     {
-                        Data[item.Size].Remove(result);
+                        lock(Data[item.Size])
+                        {
+                            Data[item.Size].Remove(result);
+                        }
                     }
                 }
             }
@@ -131,7 +135,9 @@ namespace DarkCrash.FileDatabase.Common.Services
             {
                 Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
             }
-            catch (Exception) { }
+            catch (Exception) {
+                file.MoveTo(file.FullName + $"_{DateTime.Now.ToString("yyyyMMddHHmmss")}");
+            }
         }
 
         /// <summary>

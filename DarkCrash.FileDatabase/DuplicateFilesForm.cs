@@ -38,42 +38,8 @@ namespace DarkCrash.FileDatabase
         /// </summary>
         private void DuplicateFilesForm_Load(object sender, EventArgs e)
         {
-            listViewDirectory.Items.AddRange(DuplicateFilesItems.Select(_ =>
-            {
-                var item = new ListViewItem()
-                {
-                    Name = _.Name,
-                    Text = _.FullName,
-                    Tag = _
-                };
-                item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "size", Text = _.Size.ToString() });
-                item.SubItems.Add(new ListViewItem.ListViewSubItem() { Name = "hash", Text = _.Sha1Text });
-                return item;
-            }).ToArray());
+            listViewDirectory.SetItems(DuplicateFilesItems, true);
         }
 
-        private async void computeHashToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var viewItem = listViewDirectory.FocusedItem;
-            if (viewItem == null) return;
-            var item = viewItem.Tag as Common.Models.FileItem;
-            if (item == null) return;
-            var subitem = viewItem.SubItems["hash"];
-            if (subitem == null) return;
-
-            await item.ComputeHashAsync();
-            subitem.Text = item.Sha1Text;
-
-        }
-
-        private void openShellToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var viewItem = listViewDirectory.FocusedItem;
-            if (viewItem == null) return;
-            var item = viewItem.Tag as Common.Models.FileItem;
-            if (item == null) return;
-            item.OpenShell();
-
-        }
     }
 }

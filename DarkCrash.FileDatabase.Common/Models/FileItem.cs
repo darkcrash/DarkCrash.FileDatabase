@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DarkCrash.FileDatabase.Common.Models
@@ -31,6 +32,14 @@ namespace DarkCrash.FileDatabase.Common.Models
         /// SHA1 hash
         /// </summary>
         public byte[] Sha1 { get; set; } = [];
+        /// <summary>
+        /// sha1 hash text
+        /// </summary>
         public string Sha1Text { get => string.Join("", Sha1.Select(_ => _.ToString("X2"))); }
+        /// <summary>
+        /// same size item count
+        /// </summary>
+        [JsonIgnore]
+        public int SameSizeCount { get; set; } = 0;
     }
 }
