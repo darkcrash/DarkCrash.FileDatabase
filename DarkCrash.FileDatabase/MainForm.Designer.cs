@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             TreeNode treeNode1 = new TreeNode("C:");
             TreeNode treeNode2 = new TreeNode("D:");
             TreeNode treeNode3 = new TreeNode("Root", new TreeNode[] { treeNode1, treeNode2 });
@@ -41,6 +42,10 @@
             columnHeaderName = new ColumnHeader();
             columnHeaderSize = new ColumnHeader();
             columnHeaderSha1 = new ColumnHeader();
+            contextMenuStripFile = new ContextMenuStrip(components);
+            computeHashToolStripMenuItem = new ToolStripMenuItem();
+            filesOfTheSameSizeToolStripMenuItem = new ToolStripMenuItem();
+            openShellToolStripMenuItem = new ToolStripMenuItem();
             toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             toolStripTextBoxCurrentPath = new ToolStripTextBox();
@@ -49,6 +54,7 @@
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
+            contextMenuStripFile.SuspendLayout();
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -122,6 +128,7 @@
             listViewDirectory.Activation = ItemActivation.OneClick;
             listViewDirectory.AllowColumnReorder = true;
             listViewDirectory.Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1 });
+            listViewDirectory.ContextMenuStrip = contextMenuStripFile;
             listViewDirectory.Dock = DockStyle.Fill;
             listViewDirectory.HotTracking = true;
             listViewDirectory.HoverSelection = true;
@@ -150,6 +157,33 @@
             // 
             columnHeaderSha1.Text = "Sha1";
             columnHeaderSha1.Width = 240;
+            // 
+            // contextMenuStripFile
+            // 
+            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem, openShellToolStripMenuItem });
+            contextMenuStripFile.Name = "contextMenuStripFile";
+            contextMenuStripFile.Size = new Size(184, 92);
+            // 
+            // computeHashToolStripMenuItem
+            // 
+            computeHashToolStripMenuItem.Name = "computeHashToolStripMenuItem";
+            computeHashToolStripMenuItem.Size = new Size(183, 22);
+            computeHashToolStripMenuItem.Text = "Compute Hash";
+            computeHashToolStripMenuItem.Click += computeHashToolStripMenuItem_Click;
+            // 
+            // filesOfTheSameSizeToolStripMenuItem
+            // 
+            filesOfTheSameSizeToolStripMenuItem.Name = "filesOfTheSameSizeToolStripMenuItem";
+            filesOfTheSameSizeToolStripMenuItem.Size = new Size(183, 22);
+            filesOfTheSameSizeToolStripMenuItem.Text = "Files of the same size";
+            filesOfTheSameSizeToolStripMenuItem.Click += filesOfTheSameSizeToolStripMenuItem_Click;
+            // 
+            // openShellToolStripMenuItem
+            // 
+            openShellToolStripMenuItem.Name = "openShellToolStripMenuItem";
+            openShellToolStripMenuItem.Size = new Size(183, 22);
+            openShellToolStripMenuItem.Text = "Open Shell";
+            openShellToolStripMenuItem.Click += openShellToolStripMenuItem_Click;
             // 
             // toolStrip1
             // 
@@ -195,6 +229,7 @@
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
+            contextMenuStripFile.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             ResumeLayout(false);
@@ -216,5 +251,9 @@
         private ToolStrip toolStrip1;
         private ToolStripTextBox toolStripTextBoxCurrentPath;
         private ToolStripLabel toolStripLabel1;
+        private ContextMenuStrip contextMenuStripFile;
+        private ToolStripMenuItem computeHashToolStripMenuItem;
+        private ToolStripMenuItem filesOfTheSameSizeToolStripMenuItem;
+        private ToolStripMenuItem openShellToolStripMenuItem;
     }
 }

@@ -32,9 +32,5 @@ namespace DarkCrash.FileDatabase.Common.Models
         /// </summary>
         public byte[] Sha1 { get; set; } = [];
         public string Sha1Text { get => string.Join("", Sha1.Select(_ => _.ToString("X2"))); }
-        /// <summary>
-        /// MD5ハッシュ
-        /// </summary>
-        public byte[] MD5 { get; set; } = [];
     }
 }

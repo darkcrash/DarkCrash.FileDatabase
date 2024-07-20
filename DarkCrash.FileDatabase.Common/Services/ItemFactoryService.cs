@@ -36,30 +36,6 @@ namespace DarkCrash.FileDatabase.Common.Services
             }
         }
 
-        /// <summary>
-        /// ファイル項目を生成する
-        /// </summary>
-        /// <param name="path">ファイルパス</param>
-        /// <returns>ファイル項目</returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        public async Task<FileItem> CreateFileFullItem(string path)
-        {
-            ThrowNotFoundIfFileNotFound(path);
-
-            var info = new FileInfo(path);
-            var item = new FileItem();
-
-            item.Name = info.Name;
-            item.Path = info.DirectoryName ?? string.Empty;
-            item.Size = info.Length;
-            using (var stream = info.OpenRead())
-            {
-                item.Sha1 = await SHA1.ComputeHashAsync(stream);
-            }
-
-            return item;
-
-        }
 
         /// <summary>
         /// ファイル項目を生成する
@@ -67,7 +43,7 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <param name="path">ファイルパス</param>
         /// <returns>ファイル項目</returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public async Task<FileItem> CreateFilItemWithoutHash(string path)
+        public FileItem CreateFilItemWithoutHash(string path)
         {
             ThrowNotFoundIfFileNotFound(path);
 
@@ -90,7 +66,7 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <param name="path">ファイルパス</param>
         /// <returns>ファイル項目</returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public async Task<DirectoryItem> CreateDirectoryItemsWithoutHash(string path)
+        public DirectoryItem CreateDirectoryItemsWithoutHash(string path)
         {
             ThrowNotFoundIfDirectoryNotFound(path);
 

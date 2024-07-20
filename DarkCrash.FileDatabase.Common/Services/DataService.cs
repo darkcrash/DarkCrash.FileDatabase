@@ -25,16 +25,17 @@ namespace DarkCrash.FileDatabase.Common.Services
 
         public void SaveItem(FileItem item)
         {
-            var path = System.IO.Path.Combine(DirectoryPath, item.Path);
-            if (!Data.ContainsKey(item.Size))
+            lock (Data)
             {
-                Data.Add(item.Size, new List<FileItem>());
+                if (!Data.ContainsKey(item.Size))
+                {
+                    Data.Add(item.Size, new List<FileItem>());
+                }
             }
             var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
             if (result != null)
             {
                 result.Sha1 = item.Sha1;
-                result.MD5 = item.MD5;
             }
             else
             {
@@ -44,14 +45,31 @@ namespace DarkCrash.FileDatabase.Common.Services
 
         public void LoadItem(FileItem item)
         {
-            var path = System.IO.Path.Combine(DirectoryPath, item.Path);
             if (Data.ContainsKey(item.Size))
             {
-                var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
-                if (result != null)
+                lock (Data[item.Size])
                 {
-                    item.Sha1 = result.Sha1;
-                    item.MD5 = result.MD5;
+                    var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
+                    if (result != null)
+                    {
+                        item.Sha1 = result.Sha1;
+                    }
+                }
+
+            }
+        }
+
+        public void RemoveItem(FileItem item)
+        {
+            if (Data.ContainsKey(item.Size))
+            {
+                lock (Data[item.Size])
+                {
+                    var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
+                    if (result != null)
+                    {
+                        Data[item.Size].Remove(result);
+                    }
                 }
             }
         }
@@ -89,6 +107,11 @@ namespace DarkCrash.FileDatabase.Common.Services
             if (!Data.ContainsKey(item.Size)) yield break;
             foreach (var i in Data[item.Size].ToArray())
             {
+                if (!System.IO.File.Exists(i.FullName))
+                {
+
+                    continue;
+                }
                 yield return i;
             }
         }

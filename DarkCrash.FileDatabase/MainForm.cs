@@ -78,7 +78,7 @@ namespace DarkCrash.FileDatabase
             if (!System.IO.Directory.Exists(path)) return;
             toolStripTextBoxCurrentPath.Text = path;
             var factory = Common.Services.ItemFactoryService.Instance;
-            var result = await factory.CreateDirectoryItemsWithoutHash(path);
+            var result = factory.CreateDirectoryItemsWithoutHash(path);
             listViewDirectory.Items.Clear();
             listViewDirectory.Items.AddRange(
                 result.Files.Select(_ =>
@@ -108,34 +108,15 @@ namespace DarkCrash.FileDatabase
             await DataService.Instance.SaveAsync();
         }
 
-        private async void listViewDirectory_ItemActivate(object sender, EventArgs e)
+        private void listViewDirectory_ItemActivate(object sender, EventArgs e)
         {
             var viewItem = listViewDirectory.FocusedItem;
             if (viewItem == null) return;
             var item = viewItem.Tag as Common.Models.FileItem;
             if (item == null) return;
-            var subitem = viewItem.SubItems["hash"];
-            if (subitem == null) return;
-
-            await item.ComputeHashAsync();
-            DataService.Instance.SaveItem(item);
-            subitem.Text = item.Sha1Text;
-
-            var items = DataService.Instance.GetDuplicateFiles(item);
-            if (items.Count() > 1)
-            {
-                var form = new DuplicateFilesForm(items);
-                form.Show(this);
-            }
-            else
-            {
-                items = DataService.Instance.GetDuplicateSizeFiles(item);
-                if (items.Count() > 1)
-                {
-                    var form = new DuplicateFilesForm(items);
-                    form.Show(this);
-                }
-            }
+            var items = DataService.Instance.GetDuplicateSizeFiles(item);
+            var form = new DuplicateFilesForm(items);
+            form.Show(this);
 
         }
 
@@ -181,6 +162,56 @@ namespace DarkCrash.FileDatabase
                 closed = true;
                 this.Close();
             }
+        }
+
+        private async void computeHashToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewItem = listViewDirectory.FocusedItem;
+            if (viewItem == null) return;
+            var item = viewItem.Tag as Common.Models.FileItem;
+            if (item == null) return;
+            var subitem = viewItem.SubItems["hash"];
+            if (subitem == null) return;
+
+            await item.ComputeHashAsync();
+            subitem.Text = item.Sha1Text;
+
+            var items = DataService.Instance.GetDuplicateFiles(item);
+            if (items.Count() > 1)
+            {
+                var form = new DuplicateFilesForm(items);
+                form.Show(this);
+            }
+            else
+            {
+                items = DataService.Instance.GetDuplicateSizeFiles(item);
+                if (items.Count() > 1)
+                {
+                    var form = new DuplicateFilesForm(items);
+                    form.Show(this);
+                }
+            }
+        }
+
+        private void filesOfTheSameSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewItem = listViewDirectory.FocusedItem;
+            if (viewItem == null) return;
+            var item = viewItem.Tag as Common.Models.FileItem;
+            if (item == null) return;
+            var items = DataService.Instance.GetDuplicateSizeFiles(item);
+            var form = new DuplicateFilesForm(items);
+            form.Show(this);
+        }
+
+        private void openShellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewItem = listViewDirectory.FocusedItem;
+            if (viewItem == null) return;
+            var item = viewItem.Tag as Common.Models.FileItem;
+            if (item == null) return;
+            item.OpenShell();
+
         }
     }
 }
