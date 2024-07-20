@@ -1,5 +1,6 @@
 ﻿using DarkCrash.FileDatabase.Common.Models;
 using DarkCrash.FileDatabase.Common.Services;
+using DarkCrash.FileDatabase.Invoke;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -172,6 +173,30 @@ namespace DarkCrash.FileDatabase.Controls
             var items = DataService.Instance.GetSameSizeFiles(item);
             var form = new DuplicateFilesForm(items);
             form.Show(this);
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewItems = SelectedItems;
+            if (viewItems == null) return;
+            foreach (ListViewItem viewItem in viewItems)
+            {
+                var item = viewItem.Tag as Common.Models.FileItem;
+                if (item == null) return;
+
+                var param = new NavtiveShell.SHFILEOPSTRUCTA();
+                param.wFunc = NavtiveShell.FileFuncFlags.FO_DELETE;
+                param.fFlags = NavtiveShell.FILEOP_FLAGS.FOF_ALLOWUNDO;
+                param.pFrom = item.FullName;
+
+                var result = NavtiveShell.SHFileOperation(ref param);
+                if (result == 0)
+                {
+                    Items.Remove(viewItem);
+                }
+
+
+            }
         }
     }
 }

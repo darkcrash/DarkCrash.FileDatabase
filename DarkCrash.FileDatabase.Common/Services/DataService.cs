@@ -152,7 +152,7 @@ namespace DarkCrash.FileDatabase.Common.Services
             {
                 if (!System.IO.File.Exists(i.FullName))
                 {
-
+                    Data[item.Size].Remove(i);
                     continue;
                 }
                 yield return i;
@@ -167,8 +167,13 @@ namespace DarkCrash.FileDatabase.Common.Services
         public IEnumerable<FileItem> GetDuplicateFiles(FileItem item)
         {
             if (!Data.ContainsKey(item.Size)) yield break;
-            foreach (var f in Data[item.Size])
+            foreach (var f in Data[item.Size].ToArray())
             {
+                if (!System.IO.File.Exists(f.FullName))
+                {
+                    Data[item.Size].Remove(f);
+                    continue;
+                }
                 if (f.Sha1 == item.Sha1) yield return f;
             }
         }

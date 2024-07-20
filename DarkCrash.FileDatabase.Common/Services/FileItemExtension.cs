@@ -22,10 +22,10 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <summary>
         /// compute hash
         /// </summary>
-        /// <param name="path">file path</param>
+        /// <param name="item">file item</param>
         /// <returns>file item</returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public static async Task<FileItem> ComputeHashAsync(this FileItem item )
+        public static async Task<FileItem> ComputeHashAsync(this FileItem item)
         {
             var info = new FileInfo(item.FullName);
 
@@ -47,7 +47,7 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <summary>
         /// compute hash
         /// </summary>
-        /// <param name="path">file path</param>
+        /// <param name="item">file item</param>
         /// <returns>process</returns>
         /// <exception cref="FileNotFoundException"></exception>
         public static Process? OpenShell(this FileItem item)
@@ -58,7 +58,20 @@ namespace DarkCrash.FileDatabase.Common.Services
             return System.Diagnostics.Process.Start(info);
         }
 
+        /// <summary>
+        /// compute hash
+        /// </summary>
+        /// <param name="item">file item</param>
+        /// <returns>process</returns>
+        /// <exception cref="FileNotFoundException"></exception>
+        public static void Trash(this FileItem item)
+        {
+            // shell based execution
+            var info = new FileInfo(item.FullName);
+            
+               
 
+        }
 
     }
 }

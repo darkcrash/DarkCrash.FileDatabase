@@ -39,6 +39,8 @@
             computeHashToolStripMenuItem = new ToolStripMenuItem();
             filesOfTheSameSizeToolStripMenuItem = new ToolStripMenuItem();
             columnHeaderSameSizeCount = new ColumnHeader();
+            deleteToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
             contextMenuStripFile.SuspendLayout();
             SuspendLayout();
             // 
@@ -66,9 +68,9 @@
             // 
             // contextMenuStripFile
             // 
-            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { openShellToolStripMenuItem, toolStripSeparator1, computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem });
+            contextMenuStripFile.Items.AddRange(new ToolStripItem[] { openShellToolStripMenuItem, toolStripSeparator1, computeHashToolStripMenuItem, filesOfTheSameSizeToolStripMenuItem, toolStripSeparator2, deleteToolStripMenuItem });
             contextMenuStripFile.Name = "contextMenuStripFile";
-            contextMenuStripFile.Size = new Size(184, 76);
+            contextMenuStripFile.Size = new Size(184, 104);
             // 
             // openShellToolStripMenuItem
             // 
@@ -100,6 +102,18 @@
             // 
             columnHeaderSameSizeCount.Text = "SameSizeCount";
             // 
+            // deleteToolStripMenuItem
+            // 
+            deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            deleteToolStripMenuItem.Size = new Size(183, 22);
+            deleteToolStripMenuItem.Text = "Delete";
+            deleteToolStripMenuItem.Click += deleteToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(180, 6);
+            // 
             // CustomListView
             // 
             Columns.AddRange(new ColumnHeader[] { columnHeaderName, columnHeaderSize, columnHeaderSha1, columnHeaderSameSizeCount });
@@ -123,5 +137,7 @@
         private ToolStripMenuItem computeHashToolStripMenuItem;
         private ToolStripMenuItem filesOfTheSameSizeToolStripMenuItem;
         private ColumnHeader columnHeaderSameSizeCount;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem deleteToolStripMenuItem;
     }
 }
