@@ -26,6 +26,8 @@ namespace DarkCrash.FileDatabase.Common.Services
         {
             var info = new FileInfo(item.FullName);
 
+            if (!info.Exists) { return item; }
+
             // update file size
             item.Size = info.Length;
 

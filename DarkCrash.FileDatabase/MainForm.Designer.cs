@@ -29,6 +29,7 @@ namespace DarkCrash.FileDatabase
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             TreeNode treeNode1 = new TreeNode("C:");
             TreeNode treeNode2 = new TreeNode("D:");
             TreeNode treeNode3 = new TreeNode("Root", new TreeNode[] { treeNode1, treeNode2 });
@@ -55,7 +56,7 @@ namespace DarkCrash.FileDatabase
             menuStrip1.Items.AddRange(new ToolStripItem[] { ToolStripMenuItemLoad, ToolStripMenuItemSave });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Size = new Size(1008, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -75,9 +76,9 @@ namespace DarkCrash.FileDatabase
             // 
             // statusStrip1
             // 
-            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Location = new Point(0, 707);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.Size = new Size(1008, 22);
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -94,8 +95,9 @@ namespace DarkCrash.FileDatabase
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(listViewDirectory);
-            splitContainer1.Size = new Size(800, 379);
-            splitContainer1.SplitterDistance = 266;
+            splitContainer1.Size = new Size(1008, 658);
+            splitContainer1.SplitterDistance = 300;
+            splitContainer1.SplitterWidth = 10;
             splitContainer1.TabIndex = 2;
             // 
             // treeViewDrive
@@ -110,7 +112,7 @@ namespace DarkCrash.FileDatabase
             treeNode3.Name = "ノード0";
             treeNode3.Text = "Root";
             treeViewDrive.Nodes.AddRange(new TreeNode[] { treeNode3 });
-            treeViewDrive.Size = new Size(266, 379);
+            treeViewDrive.Size = new Size(300, 658);
             treeViewDrive.TabIndex = 0;
             treeViewDrive.AfterExpand += treeViewDrive_AfterExpand;
             treeViewDrive.AfterSelect += treeViewDrive_AfterSelect;
@@ -121,9 +123,10 @@ namespace DarkCrash.FileDatabase
             listViewDirectory.Dock = DockStyle.Fill;
             listViewDirectory.Location = new Point(0, 0);
             listViewDirectory.Name = "listViewDirectory";
-            listViewDirectory.Size = new Size(530, 379);
+            listViewDirectory.Size = new Size(698, 658);
             listViewDirectory.TabIndex = 0;
             listViewDirectory.UseCompatibleStateImageBehavior = false;
+            listViewDirectory.View = View.Details;
             // 
             // toolStrip1
             // 
@@ -131,7 +134,7 @@ namespace DarkCrash.FileDatabase
             toolStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
             toolStrip1.Location = new Point(0, 24);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(800, 25);
+            toolStrip1.Size = new Size(1008, 25);
             toolStrip1.TabIndex = 2;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -152,7 +155,7 @@ namespace DarkCrash.FileDatabase
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1008, 729);
             Controls.Add(splitContainer1);
             Controls.Add(statusStrip1);
             Controls.Add(toolStrip1);
@@ -160,7 +163,7 @@ namespace DarkCrash.FileDatabase
             DoubleBuffered = true;
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
-            Text = "Form1";
+            Text = "File Database App";
             FormClosing += MainForm_FormClosing;
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);

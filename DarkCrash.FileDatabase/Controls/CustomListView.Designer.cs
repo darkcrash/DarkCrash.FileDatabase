@@ -53,18 +53,18 @@
             // columnHeaderName
             // 
             columnHeaderName.Text = "Name";
-            columnHeaderName.Width = 240;
+            columnHeaderName.Width = 300;
             // 
             // columnHeaderSize
             // 
             columnHeaderSize.Text = "Size";
             columnHeaderSize.TextAlign = HorizontalAlignment.Right;
-            columnHeaderSize.Width = 160;
+            columnHeaderSize.Width = 100;
             // 
             // columnHeaderSha256
             // 
             columnHeaderSha256.Text = "SHA2-256";
-            columnHeaderSha256.Width = 240;
+            columnHeaderSha256.Width = 320;
             // 
             // contextMenuStripFile
             // 
