@@ -142,21 +142,35 @@ namespace DarkCrash.FileDatabase.Controls
                 ColumnStatus.Add(e.Column, true);
             }
 
+            // sort key first
             Func<ListViewItem, object> func = (_) =>
             {
                 if (e.Column == 1) return long.Parse(_.SubItems[e.Column].Text);
+                if (e.Column == 3) return int.Parse(_.SubItems[e.Column].Text);
                 return _.SubItems[e.Column].Text;
+            };
+
+            // sort 2
+            Func<ListViewItem, object> func2 = (_) =>
+            {
+                return long.Parse(_.SubItems[1].Text);
+            };
+
+            // sort 3
+            Func<ListViewItem, object> func3 = (_) =>
+            {
+                return _.SubItems[0].Text;
             };
 
             ListViewItem[] items;
 
             if (ColumnStatus[e.Column])
             {
-                items = Items.Cast<ListViewItem>().OrderBy(func).ToArray();
+                items = Items.Cast<ListViewItem>().OrderBy(func).ThenByDescending(func2).ThenBy(func3).ToArray();
             }
             else
             {
-                items = Items.Cast<ListViewItem>().OrderByDescending(func).ToArray();
+                items = Items.Cast<ListViewItem>().OrderByDescending(func).ThenByDescending(func2).ThenBy(func3).ToArray();
             }
             ColumnStatus[e.Column] = !ColumnStatus[e.Column];
 
@@ -187,7 +201,7 @@ namespace DarkCrash.FileDatabase.Controls
                 var param = new NavtiveShell.SHFILEOPSTRUCTA();
                 param.wFunc = NavtiveShell.FileFuncFlags.FO_DELETE;
                 param.fFlags = NavtiveShell.FILEOP_FLAGS.FOF_ALLOWUNDO;
-                param.pFrom = item.FullName;
+                param.pFrom = item.FullName + "\0";
 
                 var result = NavtiveShell.SHFileOperation(ref param);
                 if (result == 0)
