@@ -15,10 +15,6 @@ namespace DarkCrash.FileDatabase.Common.Services
     /// </summary>
     public static class FileItemExtension
     {
-        /// <summary>
-        /// computing hash feature
-        /// </summary>
-        public static HashAlgorithm Hash = SHA256.Create();
 
         /// <summary>
         /// compute hash
@@ -34,8 +30,10 @@ namespace DarkCrash.FileDatabase.Common.Services
             item.Size = info.Length;
 
             // computing hash value
+            using HashAlgorithm Hash = SHA256.Create();
             using (var stream = info.OpenRead())
             {
+                Hash.Initialize();
                 item.Sha256 = await Hash.ComputeHashAsync(stream);
             }
 
