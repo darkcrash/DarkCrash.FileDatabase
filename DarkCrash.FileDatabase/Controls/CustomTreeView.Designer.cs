@@ -30,6 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             imageList = new ImageList(components);
+            contextMenuStrip = new ContextMenuStrip(components);
+            toolStripMenuItemCreateRecursive = new ToolStripMenuItem();
+            contextMenuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // imageList
@@ -37,11 +40,32 @@
             imageList.ColorDepth = ColorDepth.Depth32Bit;
             imageList.ImageSize = new Size(16, 16);
             imageList.TransparentColor = Color.Transparent;
+            // 
+            // contextMenuStrip
+            // 
+            contextMenuStrip.Items.AddRange(new ToolStripItem[] { toolStripMenuItemCreateRecursive });
+            contextMenuStrip.Name = "contextMenuStripCreateRecursive";
+            contextMenuStrip.Size = new Size(181, 26);
+            // 
+            // toolStripMenuItemCreateRecursive
+            // 
+            toolStripMenuItemCreateRecursive.Name = "toolStripMenuItemCreateRecursive";
+            toolStripMenuItemCreateRecursive.Size = new Size(180, 22);
+            toolStripMenuItemCreateRecursive.Text = "Fetch File Recursive ";
+            toolStripMenuItemCreateRecursive.Click += toolStripMenuItemCreateRecursive_Click;
+            // 
+            // CustomTreeView
+            // 
+            ContextMenuStrip = contextMenuStrip;
+            LineColor = Color.Black;
+            contextMenuStrip.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private ImageList imageList;
+        private ContextMenuStrip contextMenuStrip;
+        private ToolStripMenuItem toolStripMenuItemCreateRecursive;
     }
 }

@@ -89,14 +89,39 @@ namespace DarkCrash.FileDatabase.Common.Services
 
             item.Files.AddRange(info.GetFiles().Select(_ =>
             {
-                var item = new FileItem();
-                item.Name = _.Name;
-                item.Path = _.DirectoryName ?? string.Empty;
-                item.Size = _.Length;
-                DataService.Instance.LoadItem(item);
-                DataService.Instance.SaveItem(item);
-                return item;
-            }));
+                try
+                {
+                    var item = new FileItem();
+                    item.Name = _.Name;
+                    item.Path = _.DirectoryName ?? string.Empty;
+                    item.Size = _.Length;
+                    DataService.Instance.LoadItem(item);
+                    DataService.Instance.SaveItem(item);
+                    return item;
+                }
+                catch (System.UnauthorizedAccessException) { return null; }
+            }).Where(_ => _ != null).Cast<FileItem>());
+
+            return item;
+
+        }
+
+        /// <summary>
+        /// create recursive file item from directory path
+        /// </summary>
+        /// <param name="path">directory path</param>
+        /// <returns>file items</returns>
+        /// <exception cref="DirectoryNotFoundException">path not found</exception>
+        public DirectoryItem CreateRecursiveDirectoryItemsWithoutHash(string path)
+        {
+            var item = CreateDirectoryItemsWithoutHash(path);
+
+            var info = new DirectoryInfo(path);
+
+            foreach (var sub in info.GetDirectories())
+            {
+                var subItem = CreateRecursiveDirectoryItemsWithoutHash(sub.FullName);
+            }
 
             return item;
 

@@ -1,6 +1,5 @@
 ﻿using DarkCrash.FileDatabase.Common.Models;
 using DarkCrash.FileDatabase.Common.Services;
-using DarkCrash.FileDatabase.Invoke;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,6 +42,8 @@ namespace DarkCrash.FileDatabase.Controls
                         return item;
                     }).ToArray()
                 );
+            SortByColumn();
+
         }
 
         public void SetItems(IEnumerable<FileItem> files, bool fullPath)
@@ -63,6 +64,8 @@ namespace DarkCrash.FileDatabase.Controls
                     return item;
                 }).ToArray()
                 );
+            SortByColumn();
+
         }
 
 
@@ -134,20 +137,35 @@ namespace DarkCrash.FileDatabase.Controls
         }
 
         private Dictionary<int, bool> ColumnStatus = new Dictionary<int, bool>();
+        private int SortColumn = 0;
 
         private void CustomListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (!ColumnStatus.ContainsKey(e.Column))
+            SortColumn = e.Column;
+            if (!ColumnStatus.ContainsKey(SortColumn))
             {
-                ColumnStatus.Add(e.Column, true);
+                ColumnStatus.Add(SortColumn, false);
+            }
+            ColumnStatus[SortColumn] = !ColumnStatus[SortColumn];
+
+            SortByColumn();
+
+
+        }
+
+        private void SortByColumn()
+        {
+            if (!ColumnStatus.ContainsKey(SortColumn))
+            {
+                ColumnStatus.Add(SortColumn, false);
             }
 
             // sort key first
             Func<ListViewItem, object> func = (_) =>
             {
-                if (e.Column == 1) return long.Parse(_.SubItems[e.Column].Text);
-                if (e.Column == 3) return int.Parse(_.SubItems[e.Column].Text);
-                return _.SubItems[e.Column].Text;
+                if (SortColumn == 1) return long.Parse(_.SubItems[SortColumn].Text);
+                if (SortColumn == 3) return int.Parse(_.SubItems[SortColumn].Text);
+                return _.SubItems[SortColumn].Text;
             };
 
             // sort 2
@@ -164,7 +182,7 @@ namespace DarkCrash.FileDatabase.Controls
 
             ListViewItem[] items;
 
-            if (ColumnStatus[e.Column])
+            if (ColumnStatus[SortColumn])
             {
                 items = Items.Cast<ListViewItem>().OrderBy(func).ThenByDescending(func2).ThenBy(func3).ToArray();
             }
@@ -172,7 +190,6 @@ namespace DarkCrash.FileDatabase.Controls
             {
                 items = Items.Cast<ListViewItem>().OrderByDescending(func).ThenByDescending(func2).ThenBy(func3).ToArray();
             }
-            ColumnStatus[e.Column] = !ColumnStatus[e.Column];
 
             Items.Clear();
             Items.AddRange(items);
@@ -198,13 +215,7 @@ namespace DarkCrash.FileDatabase.Controls
                 var item = viewItem.Tag as Common.Models.FileItem;
                 if (item == null) return;
 
-                var param = new NavtiveShell.SHFILEOPSTRUCTA();
-                param.wFunc = NavtiveShell.FileFuncFlags.FO_DELETE;
-                param.fFlags = NavtiveShell.FILEOP_FLAGS.FOF_ALLOWUNDO;
-                param.pFrom = item.FullName + "\0";
-
-                var result = NavtiveShell.SHFileOperation(ref param);
-                if (result == 0)
+                if (item.Trash())
                 {
                     Items.Remove(viewItem);
                 }

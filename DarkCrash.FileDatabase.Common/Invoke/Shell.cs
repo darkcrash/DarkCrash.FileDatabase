@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DarkCrash.FileDatabase.Invoke
+namespace DarkCrash.FileDatabase.Common
 {
     /// <summary>
     /// Native Method win api

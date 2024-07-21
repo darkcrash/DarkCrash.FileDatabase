@@ -54,7 +54,11 @@ namespace DarkCrash.FileDatabase.Common.Services
             // shell based execution
             var info = new System.Diagnostics.ProcessStartInfo(item.FullName);
             info.UseShellExecute = true;
-            return System.Diagnostics.Process.Start(info);
+            try
+            {
+                return System.Diagnostics.Process.Start(info);
+            }
+            catch (Exception) { return null; }
         }
 
         /// <summary>
@@ -63,12 +67,20 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <param name="item">file item</param>
         /// <returns>process</returns>
         /// <exception cref="FileNotFoundException"></exception>
-        public static void Trash(this FileItem item)
+        public static bool Trash(this FileItem item)
         {
             // shell based execution
-            var info = new FileInfo(item.FullName);
+            var param = new NavtiveShell.SHFILEOPSTRUCTA();
+            param.wFunc = NavtiveShell.FileFuncFlags.FO_DELETE;
+            param.fFlags = NavtiveShell.FILEOP_FLAGS.FOF_ALLOWUNDO;
+            param.pFrom = item.FullName + "\0";
 
-
+            var result = NavtiveShell.SHFileOperation(ref param) == 0;
+            if (result)
+            {
+                DataService.Instance.RemoveItem(item);
+            }
+            return result;
 
         }
 

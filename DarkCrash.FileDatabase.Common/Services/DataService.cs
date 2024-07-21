@@ -76,8 +76,15 @@ namespace DarkCrash.FileDatabase.Common.Services
                         item.Sha256 = result.Sha256;
                         item.SameSizeCount = Data[item.Size].Count;
                     }
+                    else
+                    {
+                        item.SameSizeCount = Data[item.Size].Count + 1;
+                    }
                 }
-
+            }
+            else
+            {
+                item.SameSizeCount = 1;
             }
         }
 
@@ -94,7 +101,7 @@ namespace DarkCrash.FileDatabase.Common.Services
                     var result = Data[item.Size].Where(_ => _.FullName == item.FullName).FirstOrDefault();
                     if (result != null)
                     {
-                        lock(Data[item.Size])
+                        lock (Data[item.Size])
                         {
                             Data[item.Size].Remove(result);
                         }
@@ -138,7 +145,8 @@ namespace DarkCrash.FileDatabase.Common.Services
             {
                 Data = await JsonSerializer.DeserializeAsync<Dictionary<long, List<FileItem>>>(stream) ?? Data;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 try
                 {
                     file.MoveTo(file.FullName + $"_{DateTime.Now.ToString("yyyyMMddHHmmss")}");
@@ -155,13 +163,17 @@ namespace DarkCrash.FileDatabase.Common.Services
         public IEnumerable<FileItem> GetSameSizeFiles(FileItem item)
         {
             if (!Data.ContainsKey(item.Size)) yield break;
-            foreach (var i in Data[item.Size].ToArray())
+            var array = Data[item.Size].ToArray();
+            var cnt = 0;
+            foreach (var i in array)
             {
                 if (!System.IO.File.Exists(i.FullName))
                 {
                     Data[item.Size].Remove(i);
+                    cnt--;
                     continue;
                 }
+                i.SameSizeCount = array.Length + cnt;
                 yield return i;
             }
         }
@@ -173,15 +185,9 @@ namespace DarkCrash.FileDatabase.Common.Services
         /// <returns>duplicate items</returns>
         public IEnumerable<FileItem> GetDuplicateFiles(FileItem item)
         {
-            if (!Data.ContainsKey(item.Size)) yield break;
-            foreach (var f in Data[item.Size].ToArray())
+            foreach (var i in GetSameSizeFiles(item).Where(_ => _.Sha256 == item.Sha256))
             {
-                if (!System.IO.File.Exists(f.FullName))
-                {
-                    Data[item.Size].Remove(f);
-                    continue;
-                }
-                if (f.Sha256 == item.Sha256) yield return f;
+                yield return i;
             }
         }
 
